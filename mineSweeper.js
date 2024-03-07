@@ -8,9 +8,6 @@ const col = document.querySelector("#col")
 
 const difficulty = document.querySelector("#difficulty")
 
-table.addEventListener("click",onTableClick)
-
-
 
 button.addEventListener("click",generateClick)
 
@@ -40,16 +37,17 @@ function generateClick(e){
     generateMines()
 }
 
+// Create the table elements
 
 function generateTable(e){
 
+
     table.innerHTML = ""
-    
+    table.addEventListener("click",onTableClick)
+    table.classList.remove("shaking")
+
     let rowNumber = parseInt(row.value)
     let colNumber = parseInt(col.value)
-
-    
-    //console.log(rowNumber + " + " + colNumber + " = " + (rowNumber+colNumber))
 
 
     for(let i = 0; i < rowNumber; i++){
@@ -64,6 +62,7 @@ function generateTable(e){
 
 }
 
+// Generating mines based on number of cells and difficulty
 
 function generateMines(){
     
@@ -102,29 +101,29 @@ function getDifficulty(){
     }
 }
 
+// Select a new mine randomly, check if that cell has a mine on it
+
 function selectNewMine(row,col){
     
     let validPosition = false
     let first
     let second
     
-
     while(!validPosition){
         
         first = Math.floor(Math.random() * col)
         second = Math.floor(Math.random() * row)
 
 
-        //console.log("first: " + first + " second: "+ second)
         if(!checkMineListContains(first,second)){
             validPosition = true
         }
     }
     let newMine = new Mine(parseInt(first),parseInt(second))
-    //console.log("New mine created at: "+ first + " " + second)
     return newMine    
 }
 
+// Checking if the list MineList contains a mine with the same position as the parameter
 
 function checkMineListContains(x,y){
     for(let i = 0; i < mineList.length; i++){
@@ -149,11 +148,16 @@ function onTableClick(e){
 
     if(checkMineListContains(x,y)){
         td.classList.add("mine")
-        console.log("BOOM")
         gameOver()
     }
     else{
-        console.log("Clear")
+
+        /*
+        Todo:
+            - Clear multiple blocks on click like in the real game
+        */
+
+
         if(td.classList.contains("clear")){
 
         }
@@ -174,11 +178,24 @@ function onTableClick(e){
 //
 
 function gameOver(){
-
+    
+    table.classList.add("shaking")
+    table.removeEventListener("click",onTableClick)
+    
+    const message = "GAME OVER"
+    popUp(message)
+    //GAME OVER SIGN
 }
 
 //
 
 function gameWin(){
+
+
+    const message = "YOU WIN"
+    popUp(message)
+}
+
+function popUp(message){
 
 }
