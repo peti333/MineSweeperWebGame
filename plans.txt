@@ -1,0 +1,7 @@
+css the shit out of the website
+
+- cursor following
+- Slow big "MINESWEEPER" appearing on start
+- screen shake on lose
+- hover and click and table generation animation
+- buttons better styling

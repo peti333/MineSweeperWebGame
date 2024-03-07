@@ -1,0 +1,66 @@
+body{
+    background-color:rgb(79, 79, 79);
+}
+
+.title{
+    font-size: xx-large;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    width: 10em;
+    height: 2em;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+table{
+    margin-left: auto;
+    margin-right: auto;
+    border: solid 1px black;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+
+form{
+    margin:auto;
+    width: 400px;
+}
+
+button {
+    position: absolute;
+    margin: auto;
+    width: 100px;
+}
+
+
+tr{
+    height: 50px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+
+td {
+    margin:0;
+    padding: 0;
+    display: inline-block;
+    background-color: grey;
+    border: solid 1px black;
+    height: 50px;
+    width: 50px;
+    overflow: hidden;
+}
+
+td:hover{
+    background-color: rgb(73, 73, 73);
+}
+
+
+.mine{
+    background-size: contain;
+    background-image: url("./mine.png");
+}
+
+.clear{
+    background-color: white;
+}

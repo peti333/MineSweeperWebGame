@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="title">MINESWEEPER</div>
+
+    <form>
+        <input id="row" type="text">
+        <span>X</span>
+        <input id="col" type="text">
+        <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+        <input id="genButton" type="button" value="Generate minefield">
+    </form>
+    
+    <table id="table">
+
+    </table>
+
+    <script src="mineSweeper.js"></script>
+</body>
+</html>
