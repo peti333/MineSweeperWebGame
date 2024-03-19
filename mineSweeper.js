@@ -1,3 +1,9 @@
+/*
+TO DO
+- Remove all mines when new table generated
+- hover on clear block css
+
+*/
 // D O M 
 
 const table = document.querySelector("#table")
@@ -126,14 +132,19 @@ function selectNewMine(row,col){
 // Checking if the list MineList contains a mine with the same position as the parameter
 
 function checkMineListContains(x,y){
-    for(let i = 0; i < mineList.length; i++){
-        if(mineList[i].x == x && mineList[i].y == y){
-            console.log("checkMineListContains("+ x + "," + y + ") returning: true")
-            return true
-        }
+    if(x < 0 || x > col.value || y < 0 || row.value < y){
+        return false
     }
-    console.log("checkMineListContains("+ x + "," + y + ") returning: false")
-    return false
+    else{
+        for(let i = 0; i < mineList.length; i++){
+            if(mineList[i].x == x && mineList[i].y == y){
+                console.log("checkMineListContains("+ x + "," + y + ") returning: true")
+                return true
+            }
+        }
+        console.log("checkMineListContains("+ x + "," + y + ") returning: false")
+        return false
+    }
 }
 
 
@@ -148,6 +159,7 @@ function onTableClick(e){
 
     if(checkMineListContains(x,y)){
         td.classList.add("mine")
+        
         gameOver()
     }
     else{
@@ -157,13 +169,16 @@ function onTableClick(e){
             - Clear multiple blocks on click like in the real game
         */
 
-
+        //Check if that cell has already been clicked
         if(td.classList.contains("clear")){
 
         }
         else{
-            numberOfCellsLeft = numberOfCellsLeft - 1
-            td.classList.add("clear")
+
+            clearCells(td,x,y)
+
+            
+            //td.classList.add("clear")
             if(numberOfCellsLeft == 0){
                 gameWin()
             }
@@ -191,11 +206,93 @@ function gameOver(){
 
 function gameWin(){
 
-
     const message = "YOU WIN"
     popUp(message)
 }
 
 function popUp(message){
 
+}
+
+
+// Clear multiple cells when there are nearby cells that are also clear but not yet clicked
+// onClearClick clear all cells with value 0
+
+
+function clearCells(td,x,y){
+
+    console.log("clearcell:" + x + " " + y)
+
+    if(x < 0 || y < 0 || x >= col.value || y >= row.value){
+        console.log("Out of bounds: " + x + " " + y)
+        return
+    }
+    if(td.classList.contains("clear")){
+        console.log("Out of bounds: " + x + " " + y)
+        return
+    }
+
+    td.innerText = addClearValue(x,y)
+    td.classList.add("clear")
+
+    let tr = td.parentNode
+    let prevTr = table.rows[y-1]
+    let nextTr = table.rows[y+1]
+
+    let canRight = false
+    let canLeft = false
+
+
+    //call clearcells on border
+    if(td.innerText == 0){
+        if(x < col.value-1){
+            //Right
+            canRight = true
+            clearCells(tr.children[x+1],x+1,y)
+        }
+        if(x > 0){
+            //Left
+            canLeft = true
+            clearCells(tr.children[x-1],x-1,y)
+        }
+        if(y > 0){
+            //Up
+            clearCells(prevTr.cells[x],x,y-1)
+            if(canLeft){
+                clearCells(prevTr.cells[x-1],x-1,y-1)
+            }
+            if(canRight){
+                clearCells(prevTr.cells[x+1],x+1,y-1)
+            }
+        }
+        if(y < row.value-1){
+            //Down
+            clearCells(nextTr.cells[x],x,y+1)
+            if(canLeft){
+                console.log(x + " " + y + " " + prevTr)
+                clearCells(nextTr.cells[x-1],x-1,y+1)
+            }
+            if(canRight){
+                console.log(x + " " + y)
+                clearCells(nextTr.cells[x+1],x+1,y+1)
+            }
+        }
+        
+        
+    }
+    
+
+}
+
+
+// Show how many mines are nearby
+function addClearValue(x,y){
+    let result = 0
+    for(let i = x-1; i <= x+1; i++){
+        for(let j = y-1 ; j <= y+1; j++){
+            if(checkMineListContains(i,j)){result++}
+        }
+    }
+    if(result == 0){result = ""}
+    return result
 }
