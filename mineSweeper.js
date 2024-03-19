@@ -1,7 +1,6 @@
 /*
 TO DO
 - Remove all mines when new table generated
-- hover on clear block css
 
 */
 // D O M 
