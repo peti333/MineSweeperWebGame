@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minesweeper</title>
+    <link rel="icon" type="image/x-icon" href="/icon.png">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="title">MINESWEEPER</div>
 
-    <div id="popup" hidden>POPUP</div>
+    <div class="popup" hidden><div class="popupMessage">YOU WIN</div>
+    <div class="popupBtnDiv">
+        <input type="button" id="popupBtn" value="X">
+    </div>
+    </div>
 
     <form>
         <input id="row" type="text">

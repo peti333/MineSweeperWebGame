@@ -6,6 +6,11 @@
     100% { transform: rotate(0deg); }
 }
 
+@keyframes down-movement {
+    0%   {top: -50%;}
+    100% {top: 45%;}
+  }
+
 body{
     background-color:rgb(79, 79, 79);
     color:white;
@@ -75,7 +80,11 @@ td:hover{
 .mine{
     background-size: contain;
     background-image: url("./mine.png");
-    
+}
+
+.flag{
+    background-size: contain;
+    background-image: url("./flag.png");
 }
 
 .clear{
@@ -89,4 +98,45 @@ td:hover{
 
 .shaking{
     animation: tilt-shaking 0.35s 2;
+}
+
+.popup{
+    left:50%;
+    translate:-50%;
+    top: 45%;
+    margin: 0;
+    position: absolute;
+    background-color: rgb(169, 169, 169);
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 5rem;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    width: 10em;
+    height: 4em;
+    text-align: center;
+    letter-spacing: 10px;
+}
+
+
+
+.popupBtnDiv{
+    margin: 0;
+    position: absolute;
+    left:50%;
+    top: 45%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+
+#popupBtn{
+    width: 6em;
+    height: 6em;
+    background-color: gray;
+    translate:-50%;
+}
+
+
+.popupAnimation{
+    animation: down-movement 3s;
 }

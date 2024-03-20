@@ -1,9 +1,12 @@
 /*
 TO DO
 - Remove all mines when new table generated
-
+- Timer
+- Popup
 */
 // D O M 
+
+
 
 const table = document.querySelector("#table")
 const button = document.querySelector("#genButton")
@@ -13,8 +16,26 @@ const col = document.querySelector("#col")
 
 const difficulty = document.querySelector("#difficulty")
 
+const popUp = document.querySelector(".popup")
+const popUpBtn = document.querySelector("#popupBtn")
+
+popUpBtn.addEventListener("click",popUpBtnClick)
+
+//Timers
+
+let startDate
+let endDate
+
+
+
 
 button.addEventListener("click",generateClick)
+
+//Turn off contextmenu
+table.addEventListener('contextmenu', event => {
+    onrightClick(event)
+    event.preventDefault()
+});
 
 
 // C L A S S E S
@@ -40,6 +61,7 @@ let numberOfCellsLeft
 function generateClick(e){
     generateTable()
     generateMines()
+    startDate = new Date().getTime()
 }
 
 // Create the table elements
@@ -146,16 +168,32 @@ function checkMineListContains(x,y){
     }
 }
 
-
-
-// T A B L E  C L I C K
-
-function onTableClick(e){
+function onrightClick(e){
     const td = e.target.closest("td")
 
     const x = td.cellIndex
     const y = td.parentNode.rowIndex
 
+    if(td.classList.contains("flag")){
+        td.classList.remove("flag")
+    }
+    else if(!td.classList.contains("clear") && !td.classList.contains("mine")){
+        td.classList.add("flag")
+    }
+}
+
+
+// T A B L E  C L I C K
+
+function onTableClick(e){
+
+
+    const td = e.target.closest("td")
+
+    const x = td.cellIndex
+    const y = td.parentNode.rowIndex
+
+    if(td.classList.contains("flag")){return}
     if(checkMineListContains(x,y)){
         td.classList.add("mine")
         
@@ -182,17 +220,26 @@ function onTableClick(e){
                 gameWin()
             }
         }
-        
-        console.log(numberOfCellsLeft)
-        
+
     }
 
 }
 
-//
+
+function popUpBtnClick(){
+    popUpBtn.hidden = true
+    popUp.hidden = true
+
+}
+
+
+
+//When mine is clicked on
 
 function gameOver(){
     
+
+
     table.classList.add("shaking")
     table.removeEventListener("click",onTableClick)
     
@@ -201,16 +248,22 @@ function gameOver(){
     //GAME OVER SIGN
 }
 
-//
+//When numberOfCellsLeft reaches 0
 
 function gameWin(){
 
-    const message = "YOU WIN"
-    popUp(message)
-}
-
-function popUp(message){
-
+    endDate = new Date().getTime()
+    const timer = endDate - startDate
+    var minutes = (Math.floor((timer % (1000 * 60 * 60)) / (1000 * 60))).toString()
+    var seconds = (Math.floor((timer % (1000 * 60)) / 1000)).toString()
+    if(seconds.length == 1){
+        seconds = 0 + seconds
+    }
+    popUp.hidden = false
+    popUpBtn.hidden = false
+    popUp.innerText = "YOU WIN\nTime " + minutes + ":" + seconds
+    popUp.classList.add("popupAnimation")
+    popUpBtn.classList.add("popupAnimation")
 }
 
 
@@ -220,19 +273,20 @@ function popUp(message){
 
 function clearCells(td,x,y){
 
-    console.log("clearcell:" + x + " " + y)
+    //console.log("clearcell:" + x + " " + y)
 
     if(x < 0 || y < 0 || x >= col.value || y >= row.value){
-        console.log("Out of bounds: " + x + " " + y)
+        //console.log("Out of bounds: " + x + " " + y)
         return
     }
     if(td.classList.contains("clear")){
-        console.log("Out of bounds: " + x + " " + y)
+        //console.log("Out of bounds: " + x + " " + y)
         return
     }
 
     td.innerText = addClearValue(x,y)
     td.classList.add("clear")
+    numberOfCellsLeft = numberOfCellsLeft - 1
 
     let tr = td.parentNode
     let prevTr = table.rows[y-1]
